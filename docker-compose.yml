@@ -1,0 +1,37 @@
+version: '3'
+services:
+  db:
+    image: mysql:5.7
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_USER: root
+    volumes:
+      - ./data:/var/lib/mysql
+
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8086:80"
+    depends_on:
+      - db
+    environment:
+      PMA_HOST: db
+  php720:
+    build: docker
+    container_name: test
+    labels:
+    - "traefik.enable=true"
+    - "traefik.http.routers.test.entrypoints=web"
+    - "traefik.http.routers.test.rule=Host(`test.localhost`)"
+    ports:
+      - "9072:80"
+    volumes:
+      - ./vhosts:/etc/apache2/sites-enabled
+      - .:/var/www
+    depends_on:
+      - db
+    links:
+      - db

@@ -1,0 +1,22 @@
+<p>Table is just a mapping of objects to table rows with <code>ngFor</code></p>
+
+<table class="table table-striped" *ngIf="articles">
+  <thead>
+  <tr>
+    <th scope="col">Title</th>
+    <th scope="col">Content</th>
+    <th scope="col">Slug</th>
+    <th scope="col">Modify</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let article of articles; index as i">
+    <td>
+      {{ article.title }}
+    </td>
+    <td>{{ article.content }}</td>
+    <td>{{ article.slug }}</td>
+    <td><a href="" >modify</a></td>
+  </tr>
+  </tbody>
+</table>
